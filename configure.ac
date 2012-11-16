@@ -163,6 +163,10 @@ AC_ARG_ENABLE(default-engine,
   [AS_HELP_STRING([--enable-default-engine], [Build-in default engine])])
 AM_CONDITIONAL([INCLUDE_DEFAULT_ENGINE],[test "$enable_default_engine" = "yes"])
 
+AC_ARG_ENABLE(leveldb-engine,
+  [AS_HELP_STRING([--enable-leveldb-engine], [Build-in leveldb engine])])
+AM_CONDITIONAL([INCLUDE_LEVELDB_ENGINE],[test "$enable_leveldb_engine" = "yes"])
+
 AC_ARG_ENABLE(dtrace,
   [AS_HELP_STRING([--enable-dtrace],[Enable dtrace probes])])
 if test "x$enable_dtrace" = "xyes"; then

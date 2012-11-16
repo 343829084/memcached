@@ -26,6 +26,7 @@ pkglib_LTLIBRARIES = libmemcached_utilities.la \
                      ascii_scrub.la \
                      basic_engine_testsuite.la \
                      default_engine.la \
+                     leveldb_engine.la \
                      example_protocol.la \
                      fragment_rw_ops.la \
                      blackhole_logger.la \
@@ -131,6 +132,11 @@ memcached_SOURCES += $(default_engine_la_SOURCES)
 memcached_LDFLAGS += -export-dynamic
 endif
 
+if INCLUDE_LEVELDB_ENGINE
+memcached_SOURCES += $(leveldb_engine_la_SOURCES)
+memcached_LDFLAGS += -export-dynamic
+endif
+
 CLEANFILES=
 BUILT_SOURCES=
 
@@ -143,11 +149,25 @@ default_engine_la_SOURCES= engines/default_engine/assoc.c \
                            engines/default_engine/items.h \
                            engines/default_engine/slabs.c \
                            engines/default_engine/slabs.h
-
 default_engine_la_CPPFLAGS = $(CPPFLAGS) -I$(top_srcdir)/engines/default_engine
 default_engine_la_DEPENDENCIES= libmemcached_utilities.la
 default_engine_la_LIBADD= libmemcached_utilities.la $(LIBM)
 default_engine_la_LDFLAGS= -avoid-version -shared -module -no-undefined
+
+# The leveldb storage engine
+leveldb_engine_la_SOURCES= engines/leveldb_engine/leveldb_assoc.c \
+                           engines/leveldb_engine/leveldb_assoc.h \
+                           engines/leveldb_engine/leveldb_engine.c \
+                           engines/leveldb_engine/leveldb_engine.h \
+                           engines/leveldb_engine/leveldb_items.c \
+                           engines/leveldb_engine/leveldb_items.h \
+                           engines/leveldb_engine/leveldb_slabs.c \
+                           engines/leveldb_engine/leveldb_slabs.h
+
+leveldb_engine_la_CPPFLAGS = $(CPPFLAGS) -I$(top_srcdir)/engines/leveldb_engine
+leveldb_engine_la_DEPENDENCIES= libmemcached_utilities.la
+leveldb_engine_la_LIBADD= libmemcached_utilities.la $(LIBM)
+leveldb_engine_la_LDFLAGS= -avoid-version -shared -module -no-undefined
 
 if BUILD_DTRACE
 BUILT_SOURCES += memcached_dtrace.h
