@@ -162,7 +162,9 @@ leveldb_engine_la_SOURCES= engines/leveldb_engine/leveldb_assoc.c \
                            engines/leveldb_engine/leveldb_items.c \
                            engines/leveldb_engine/leveldb_items.h \
                            engines/leveldb_engine/leveldb_slabs.c \
-                           engines/leveldb_engine/leveldb_slabs.h
+                           engines/leveldb_engine/leveldb_slabs.h \
+                           engines/leveldb_engine/leveldb_log.h \
+                           engines/leveldb_engine/leveldb_log.c
 
 leveldb_engine_la_CPPFLAGS = $(CPPFLAGS) -I$(top_srcdir)/engines/leveldb_engine
 leveldb_engine_la_DEPENDENCIES= libmemcached_utilities.la

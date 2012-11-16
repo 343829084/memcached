@@ -25,6 +25,7 @@
 #include <stddef.h>
 #include <inttypes.h>
 
+#include "leveldb_log.h"
 #include "leveldb_engine.h"
 #include "memcached/util.h"
 #include "memcached/config_parser.h"
@@ -165,6 +166,8 @@ static const char const * vbucket_state_name(vbucket_state_t s) {
     }
 }
 
+const static char* logfile = "leveldb-engine.log";
+
 ENGINE_ERROR_CODE create_instance(uint64_t interface,
                                   GET_SERVER_API get_server_api,
                                   ENGINE_HANDLE **handle) {
@@ -247,6 +250,14 @@ ENGINE_ERROR_CODE create_instance(uint64_t interface,
        free(engine);
        return ENGINE_ENOMEM;
    }
+
+   engine->logfile = fopen(logfile, "w+");
+   if (engine->logfile == NULL) {
+	   return ENGINE_FAILED;
+   }
+   log_set_stream(engine->logfile);
+   log_set_debug_level(LEVELDB_ENGINE_LOG_DEBUG);
+
    *handle = (ENGINE_HANDLE*)&engine->engine;
    return ENGINE_SUCCESS;
 }

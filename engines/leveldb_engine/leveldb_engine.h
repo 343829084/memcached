@@ -146,6 +146,7 @@ struct leveldb_engine {
    } info;
 
    char vbucket_infos[NUM_VBUCKETS];
+   FILE* logfile;
 };
 
 char* item_get_data(const hash_item* item);
